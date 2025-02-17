@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.challenge.codingchallenge.constant.ResponseConstant.INTERNAL_SERVER_ERROR;
-import static com.challenge.codingchallenge.constant.ResponseConstant.INVALID_DATE_FORMAT_PLEASE_SPECIFY_THE_DATE_AND_TIME_IN_THE_CORRECT_FORMAT_USING_ISO_8601_FORMAT;
+import static com.challenge.codingchallenge.constant.ResponseConstant.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,8 +30,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleHttpMessageNotReadableException() {
-        return ResponseEntity.badRequest().body(INVALID_DATE_FORMAT_PLEASE_SPECIFY_THE_DATE_AND_TIME_IN_THE_CORRECT_FORMAT_USING_ISO_8601_FORMAT);
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body(INVALID_DATA_FORMAT);
     }
 
     @ExceptionHandler(DataAccessException.class)

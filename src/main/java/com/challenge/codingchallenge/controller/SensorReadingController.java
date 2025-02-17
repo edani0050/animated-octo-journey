@@ -24,6 +24,14 @@ public class SensorReadingController {
 
     private final SensorReadingService sensorReadingService;
 
+    /**
+     * Post endpoint to handle the creation of a new sensor reading.
+     *
+     * @param sensorReadingDTO A Data Transfer Object (DTO) containing the sensor ID, temperature, and timestamp of the reading.
+     * @return A ResponseEntity with
+     * 200 code if operation is successful,
+     * 400 code if the validation fails
+     */
     @PostMapping
     public ResponseEntity<String> saveSensorReading(@Valid @RequestBody SensorReadingDTO sensorReadingDTO) {
         log.info(SENSOR_READING_CONTROLLER_SAVE_SENSOR_READING);
@@ -32,6 +40,16 @@ public class SensorReadingController {
         return ResponseEntity.ok(String.format(SENSOR_READING_SAVED_SUCCESSFULLY_FOR_SENSOR_ID_WITH_TEMPERATURE, sensorReading.getSensorId(), sensorReading.getTemperature()));
     }
 
+    /**
+     * Get endpoint to get the average temperature between two dates
+     *
+     * @param start start date and time to check from (inclusive)
+     * @param end   end date and time to check until (inclusive)
+     * @return ResponseEntity with
+     * 200 code if data is found,
+     * 200 code if no data in the given time period,
+     * 400 code if the validation fails
+     */
     @GetMapping("/average")
     public ResponseEntity<String> getAverageTemperatureReadingByAllSensorBetweenDates(@RequestParam(START_PARAM) @Valid LocalDateTime start, @RequestParam(END_PARAM) @Valid LocalDateTime end) {
         log.info(SENSOR_READING_CONTROLLER_GET_AVERAGE_TEMPERATURE_READING_BY_ALL_SENSOR_BETWEEN_DATES);
@@ -50,6 +68,17 @@ public class SensorReadingController {
         return ResponseEntity.ok(String.format(THE_AVERAGE_TEMPERATURE_BETWEEN_AND_IS, start, end, averageTemperature));
     }
 
+    /**
+     * Get endpoint to get the average temperature between two dates by specific id
+     *
+     * @param sensorId id of the sensor
+     * @param start    start date and time to check from (inclusive)
+     * @param end      end date and time to check until (inclusive)
+     * @return ResponseEntity with
+     * 200 code if data is found,
+     * 200 code if no data in the given time period by sensorId,
+     * 400 code if the validation fails
+     */
     @GetMapping("/{sensorId}/average")
     public ResponseEntity<String> getAverageTemperatureReadingBySensorIdBetweenDates(@PathVariable String sensorId, @RequestParam(START_PARAM) LocalDateTime start, @RequestParam(END_PARAM) LocalDateTime end) {
         log.info(SENSOR_READING_CONTROLLER_GET_AVERAGE_TEMPERATURE_READING_BY_SENSOR_ID_BETWEEN_DATES);
